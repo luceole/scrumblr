@@ -7,8 +7,11 @@ var	async = require('async');
 var 	sanitizer = require('sanitizer');
 var	compression = require('compression');
 var 	express = require('express');
-var     conf = require('./config.js').server;
+var session = require('express-session');
+var Keycloak = require('keycloak-connect');
+var cors = require('cors');
 
+var     conf = require('./config.js').server;
 /**************
  LOCAL INCLUDES
 **************/
@@ -24,12 +27,24 @@ var sids_to_user_names = [];
 /**************
  SETUP EXPRESS
 **************/
+var memoryStore = new session.MemoryStore();
 var app = express();
 var router = express.Router();
-
+var NameSSO="Inconnu";
 app.use(compression());
+app.use(cors());
+app.use( session({
+  secret: 'aaslkdhlkhsd',
+  resave: false,
+  saveUninitialized: true,
+  store: memoryStore,
+} ))
+var keycloak = new Keycloak({ store: memoryStore });
+app.use( keycloak.middleware(
+{ logout: '/logout'
+}
+) );
 app.use(conf.baseurl, router);
-
 router.use(express.static(__dirname + '/client'));
 
 var server = require('http').Server(app);
@@ -48,12 +63,15 @@ var io = require('socket.io')(server, {
  ROUTES
 **************/
 
-router.get('/', function(req, res) {
-        url = req.header('host') + req.baseUrl;
-	sandstormUsername = req.header('x-sandstorm-username');
+var addName = function(token,req,resp) {
+NameSSO=token.content.preferred_username;
+return true
+}
 
+router.get('/',keycloak.protect(addName),function(req, res) {
+        //url = req.header('host') + req.baseUrl;
+	sandstormUsername = NameSSO;
 	res.cookie('scrumscrum-username', sandstormUsername);
-
 	res.render('index.jade', {
 		locals: { pageTitle: ('scrumblr - ' + req.params.id) }
 	});
@@ -66,8 +84,9 @@ router.get('/demo', function(req, res) {
 	});
 });
 
-router.get('/:id', function(req, res){
+router.get('/:id',  keycloak.protect(addName),function(req, res){
 	res.render('index.jade', {
+              //  uid: NameSSO,
 		pageTitle: ('scrumblr - ' + req.params.id)
 	});
 });
@@ -263,7 +282,7 @@ io.sockets.on('connection', function (client) {
 
 				var msg = {};
 				msg.action = 'nameChangeAnnounce';
-				msg.data = { sid: client.id, user_name: clean_message.data };
+				msg.data = { sid: client.id, user_name: NameSSO };
 				broadcastToRoom( client, msg );
 				break;
 
@@ -430,7 +449,7 @@ function joinRoom (client, room, successFunction)
 {
 	var msg = {};
 	msg.action = 'join-announce';
-	msg.data		= { sid: client.id, user_name: client.user_name };
+	msg.data		= { sid: client.id, user_name: NameSSO };
 
 	rooms.add_to_room_and_announce(client, room, msg);
 	successFunction();
@@ -485,8 +504,8 @@ function getRoom( client , callback )
 
 function setUserName ( client, name )
 {
-	client.user_name = name;
-	sids_to_user_names[client.id] = name;
+	client.user_name = NameSSO;
+	sids_to_user_names[client.id] = NameSSO;
 	//console.log('sids to user names: ');
 	console.dir(sids_to_user_names);
 }

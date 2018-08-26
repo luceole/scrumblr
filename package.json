@@ -16,8 +16,11 @@
   "dependencies": {
     "async": "~0.9.0",
     "compression": "^1.1.0",
+    "cors": "^2.8.4",
     "express": "4.x",
+    "express-session": "^1.15.6",
     "jade": "~1.5.0",
+    "keycloak-connect": "4.3.0",
     "redis": "~0.12.1",
     "sanitizer": "~0.1.1",
     "simplesets": "~1.2.0",

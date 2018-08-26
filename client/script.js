@@ -323,7 +323,7 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
         submit: 'OK',
         style: 'inherit',
         cssclass: 'card-edit-form',
-        placeholder: 'Double Click to Edit.',
+        placeholder: 'Double Click pour modifier',
         onblur: 'submit',
         event: 'dblclick', //event: 'mouseover'
     });
@@ -449,7 +449,7 @@ function drawNewColumn(columnName) {
         style: 'inherit',
         cssclass: 'card-edit-form',
         type: 'textarea',
-        placeholder: 'New',
+        placeholder: 'Titre',
         onblur: 'submit',
         width: '',
         height: '',
@@ -776,7 +776,7 @@ $(function() {
             createCard(
                 'card' + uniqueID,
                 '',
-                58, $('div.board-outline').height(), // hack - not a great way to get the new card coordinates, but most consistant ATM
+                58, $('div.board-outline').height(), // hack - not a great way to get the client/views card coordinates, but most consistant ATM
                 rotation,
                 randomCardColour());
         });
@@ -815,7 +815,7 @@ $(function() {
 
     $('#add-col').click(
         function() {
-            createColumn('New');
+            createColumn('Titre');
             return false;
         }
     );
@@ -982,4 +982,3 @@ $(function() {
     })
 
 });
-
