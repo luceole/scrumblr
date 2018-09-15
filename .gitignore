@@ -1,5 +1,6 @@
 .DS_Store
 rsync.sh
+keycloak.json
 *.swp
 *.log
 .monitor

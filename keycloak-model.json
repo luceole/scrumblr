@@ -1,0 +1,10 @@
+{
+  "realm": "rym",
+  "auth-server-url": "https://sso.domain.lan/auth",
+  "ssl-required": "external",
+  "resource": "grp",
+  "credentials": {
+    "secret": "thesecret"
+  },
+  "confidential-port": 0
+}
