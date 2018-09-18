@@ -1,55 +1,12 @@
 doctype html
 html(lang="en")
 	head
-		<!-- SCRIPTS -->
-		<link rel="stylesheet" type="text/css" href="css/style.css" />
-		<!-- FONTS -->
-		<link href='/css/rock-salt.css' rel='stylesheet' type='text/css'>
-		<link href='/css/covered-by-your-grace.css' rel='stylesheet' type='text/css'>
 
 		title scrumblr
 
 body
-	h1 scrumblr by <a href="http://aliasaria.ca">aliasaria</a>
+	h1 Gestion de Tableaux (ScrumblR)
 
-	div.board-outline
-		div#board
-			div#board-doodles
-		
-			
-			table#board-table.board-table
-				tr
-					td 
-						h1.home scrumblr.
-						form.home(onsubmit="return go();")
-							label name your new board:
-							br
-							input.text(type="text", name="name")
-							a#go(onclick="return go();") &nbsp;go.
-						<br><br>
-						p.home example board:
-						p.home!= '<a href="http://' + locals.url + '/demo">' + locals.url + '/demo</a>'
-						<br><br><br>
-						p.home.small sourcecode at <a href="https://github.com/aliasaria/scrumblr">github</a>
-				
-	div.stickers
-		div.sticker#sticker-red
-		div.sticker#sticker-blue
-		div.sticker#sticker-yellow
-		div.sticker#sticker-green
-		br
-		div.sticker#sticker-pink
-		div.sticker#sticker-lightblue
-		div.sticker#sticker-orange
-		div.sticker#sticker-purple
-		br
-		div.sticker#sticker-gold
-		div.sticker#sticker-bluestar
-		div.sticker#sticker-silverstar
-		div.sticker#sticker-redstar
+	h3 Il faut être authentifier pour l'utiliser !
 
-
-	//display # of active users here
-	div.active-connections= "connections: " + connected
-
-	//<div style="width: 980px; height: 450px; border: solid 2px; opacity:.1; margin-top: 100px"> this will be the backlog that only appears on drag or perhaps not at all</div>
+	p Essayer la <a href="/demo"> démonstration </a>
