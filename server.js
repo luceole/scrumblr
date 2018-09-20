@@ -81,23 +81,18 @@ router.get('/', keycloak.protect(addName), function(req, res) {
 });
 
 router.get('/demo', function(req, res) {
-  url = "http://" + req.header('host') + conf.baseurl;
-  console.log(url)
   res.render('index.jade', {
-    url: url,
+    url: conf.baseurl,
     pageTitle: 'scrumblr - demo',
     demo: true
   });
 });
 
 router.get('/:uid/:id', keycloak.protect(addName), function(req, res) {
-  //var  url = req.header('host') ;
-  url = "http://" + req.header('host') + conf.baseurl;
-  console.log(url)
   if (req.params.uid == NameSSO) {
     res.render('index.jade', {
       uid: NameSSO,
-      url: url,
+      url: conf.baseurl,
       pageTitle: ('scrumblr - ' + req.params.uid + '-' + req.params.id)
     });
   } else {
@@ -110,11 +105,9 @@ router.get('/:uid/:id', keycloak.protect(addName), function(req, res) {
 });
 
 router.get('/:id', keycloak.protect(addName), function(req, res) {
-  url = "http://" + req.header('host') + conf.baseurl;
-  console.log(url)
   res.render('index.jade', {
     //  uid: NameSSO,
-    url: url,
+    url: conf.baseurl,
     pageTitle: ('scrumblr - ' + req.params.id)
   });
 });
