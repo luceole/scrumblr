@@ -87,6 +87,13 @@ router.get('/demo', function(req, res) {
     demo: true
   });
 });
+router.get('/public/:id', function(req, res) {
+  res.render('index.jade', {
+    url: conf.baseurl,
+    pageTitle: ('scrumblr - '  + req.params.id)
+  });
+});
+
 
 router.get('/:uid/:id', keycloak.protect(addName), function(req, res) {
   if (req.params.uid == NameSSO) {
