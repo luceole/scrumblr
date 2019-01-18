@@ -1,22 +1,22 @@
 .card {
 	width: 230px;
-	height: 152px;
+	//height: 182px;
+	height: 160px;
 	xpadding: 5px; float: left;
 	xmargin: 0 10px 10px 0;
 	font-size: .9em;
-
-
-
-	overflow: hidden;
-
+	overflow: visible;
 	position: absolute;
 	z-index: 10;
-
 	top: 460px;
 	left: 0px;
+ background-position: center; /* Center the image */
+ background-repeat: no-repeat; /* Do not repeat the image */
+ background-size: cover; /* Resize the background image to cover the entire container */
+display: block;
 
-	display: block;
 }
+
 
 .pink {
 }
@@ -30,7 +30,7 @@
 .green {
 }
 
-.card-image {
+/* .card-image {
 	position: absolute;
 	xtop: -10;
 	left: -3px;
@@ -38,31 +38,54 @@
 	height: 100%;
 	overflow: hidden;
 	z-index: -1000;
-}
+} */
 
 .content {
 	overflow: hidden;
 	display: block;
-	width: 158px;
+  width:  160px;
 	height: 88px;
-	margin: 5px 23px 0px 34px;
-
+	margin: 15px 30px 100px 44px;
+  scrollbar-width: thin;
+	/* width:  190px;
+	height: 145px;
+	margin: 15px 10px 0px 25px; */
 	font-family: 'Covered By Your Grace',"Arial Rounded MT Bold", arial, serif;
 	font-size: 18px;
 	letter-spacing: 0px;
-
 	xtext-shadow: 0px 0px 1px #444;
-
 	opacity: 1;
-
 	color: black;
-	text-align: center;
-	padding-top: 18px;
-	xline-height: 16px;
-
+  /* background-color: blue; */
+	background-position: center; /* Center the image */
+	background-repeat: no-repeat; /* Do not repeat the image */
+	background-size: cover; /* Resize the background image to cover the entire container */
+	/* text-align: center; */
+	padding-top: 9px;
+	xline-height: 12px;
 	xopacity: .8;
 
 }
+.content::-webkit-scrollbar {
+  width: 5px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: #ddd;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #666;
+	outline: 10px solid slategrey;
+}
+
+/* .content::-webkit-scrollbar {
+	width: 1em;
+};
+.content::-webkit-scrollbar-thumb {
+  background-color: blue;
+  outline: 1px solid slategrey;
+}; */
 
 .filler {
 	margin-right: 34px;

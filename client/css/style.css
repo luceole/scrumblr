@@ -7,32 +7,24 @@ body {
 	color: #333;
 	background-color: #ddd;
 	xbackground-image: -webkit-gradient(radial, 265 118, 456, 147 0, 29, from(#DDDDDD), to(#f3f3f3));
-
 	padding-left: 10px;
-
 	xheight: 1400px;
 	xwidth: 2000px;
-
-
-
 	user-select: none;
 	-o-user-select:none;
 	-moz-user-select: none;
 	-khtml-user-select: none;
 	-webkit-user-select: none;
-
-	background-image: url('bg/concrete_wall_2_2.png');
-
+/* background-image: url('bg/concrete_wall_2_2.png'); */
+background-image: url('bg/stucco.png');
 }
 
 #board {
 	position: relative;
 	background-color: #dcd5d1;
-
 	height: 100%;
-	xwidth: 980px;
+	xwidth: 1080px;
 	xborder: solid silver 8px;
-
 	background-image: -webkit-gradient(
 	    linear,
 	    left top,
@@ -40,9 +32,7 @@ body {
 	    color-stop(0.49, rgb(214,210,206)),
 	    color-stop(0.84, rgb(196,191,182))
 	);
-
 	xbackground: -moz-linear-gradient(top,  rgb(214,210,206),  #000);
-
 	-moz-box-shadow:inset 1px 1px 3px #999;
 	box-shadow:inset 1px 1px 3px #999;
 }
@@ -60,15 +50,15 @@ body {
 
 	x-webkit-transform:rotate(0.3deg); /*"is that a little off-level? i feel like it is off-level"*/
 }
-
+/*
 #board-doodles {
 	width: 100%;
 	height: 100%;
 	position: absolute;
 	display: inline;
 	opacity: 0.035;
-	background-image: url('scribbles2.png');
-}
+	/* background-image: url('scribbles2.png'); */
+} */
 
 
 
@@ -80,7 +70,7 @@ body {
 .card-icon {
 display:none;
 position: absolute;
-top: 3%; left: 82%;
+top: -1%; left: 94%;
 opacity: .3;
 width: 16px; height: 16px;
 }
@@ -96,17 +86,17 @@ width: 16px; height: 16px;
 	background-color:inherit;
 	xvertical-align: inherit;
 	font-family: inherit;
-	text-align: center;
+	scrollbar-width: thin;
 	xcolor: #444;
 	padding: 0;
 	margin: 0;
 	outline-width:0;
-	overflow: hidden;
+	overflow: auto;
 	resize: none;
 	width: 100%;
 	color: #330066;
 	color: #666;
-
+  
 }
 
 
@@ -234,7 +224,7 @@ h2 {
 	margin-bottom: 4px;
 }
 
-#yourname-li {
+.yourname-li {
 	color: #888;
 }
 

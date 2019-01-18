@@ -207,9 +207,12 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
   var h = '<div id="' + id + '" class="card ' + colour +
     ' draggable" style="-webkit-transform:rotate(' + rot + 'deg);">\
 	<img src="' + origin + 'images/icons/token/Xion.png" class="card-icon delete-card-icon" />\
-	<img class="card-image" src="' + origin + 'images/' + colour + '-card.png"> \
   <div id="content:' + id + '" class="content stickertarget droppable" data-text="">' + marked(text) + '</div><span class="filler"></span></div>';
   var card = $(h);
+  card.css('background-image', 'url(/images/' + colour + '-card.png)');
+  //card.css('background-image', 'url(/images/post-it.png)');
+
+
   card.appendTo('#board');
   $("#" + id).children('.content:first').attr('data-text', text);
 
@@ -294,10 +297,16 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
     function() {
       $(this).addClass('hover');
       $(this).children('.card-icon').fadeIn(10);
+      // $(this).css('background-image', 'url(/images/' + colour + '-card.png)');
+      $(this).css('overflow', 'visible');
+      $(this).children('.content').css('overflow', 'auto');
+
     },
     function() {
       $(this).removeClass('hover');
       $(this).children('.card-icon').fadeOut(150);
+      $(this).css('overflow', 'hiden');
+      $(this).children('.content').css('overflow', 'hidden');
     }
   );
 
@@ -329,7 +338,7 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
     data: function() {
       return $("#" + id).children('.content:first').attr('data-text');
     },
-    submit: 'OK',
+    // submit: 'OK',
     style: 'inherit',
     cssclass: 'card-edit-form',
     placeholder: 'Double Click pour modifier',

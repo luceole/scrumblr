@@ -75,7 +75,7 @@ router.get('/', keycloak.protect(addName), function(req, res) {
   res.cookie('scrumscrum-username', sandstormUsername);
   res.render('home.jade', {
     locals: {
-      pageTitle: ('scrumblr - ' + req.params.id)
+      pageTitle: ('E-Board ' + req.params.id)
     }
   });
 });
@@ -83,14 +83,17 @@ router.get('/', keycloak.protect(addName), function(req, res) {
 router.get('/demo', function(req, res) {
   res.render('index.jade', {
     url: conf.baseurl,
-    pageTitle: 'scrumblr - demo',
+    uid: "Inconnu",
+    sandstormUsername: "NoOne",
+    pageTitle: 'E - Board demo',
     demo: true
   });
 });
 router.get('/public/:id', function(req, res) {
   res.render('index.jade', {
+    uid: "Inconnu",
     url: conf.baseurl,
-    pageTitle: ('scrumblr - '  + req.params.id)
+    pageTitle: ('E-Board - ' + req.params.id)
   });
 });
 
@@ -100,7 +103,7 @@ router.get('/:uid/:id', keycloak.protect(addName), function(req, res) {
     res.render('index.jade', {
       uid: NameSSO,
       url: conf.baseurl,
-      pageTitle: ('scrumblr - ' + req.params.uid + '-' + req.params.id)
+      pageTitle: ('E-Board ' + req.params.uid + '-' + req.params.id)
     });
   } else {
     res.status(404);
@@ -115,7 +118,7 @@ router.get('/:id', keycloak.protect(addName), function(req, res) {
   res.render('index.jade', {
     //  uid: NameSSO,
     url: conf.baseurl,
-    pageTitle: ('scrumblr - ' + req.params.id)
+    pageTitle: ('E-Board ' + req.params.id)
   });
 });
 
