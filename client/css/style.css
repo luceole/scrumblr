@@ -96,9 +96,21 @@ width: 16px; height: 16px;
 	width: 100%;
 	color: #330066;
 	color: #666;
-  
+
 }
 
+.card-edit-form  textarea::-webkit-scrollbar {
+  width: 15px;
+}
+
+card-edit-form textarea::-webkit-scrollbar-track {
+  background: #FFF;
+}
+
+card-edit-form  textarea::-webkit-scrollbar-thumb {
+  background: #666;
+	outline: 2px solid slategrey;
+}
 
 
 .board-table {
@@ -294,8 +306,9 @@ xopacity: .5;
 }
 
 .stickers {
-	width: 1000px;
-	text-align: right;
+		position: absolute; bottom: 10%; right: 2%;
+	/* width: 100px;
+	text-align: right; */
 	padding-top: 2px; margin: 0;
 }
 
