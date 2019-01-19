@@ -55,6 +55,19 @@
 	padding-top: 8px;
 }
 
+.content::-webkit-scrollbar {
+  width: 3px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: #ddd;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #666;
+	outline: 10px solid slategrey;
+}
+
 
 .filler {
 	margin-right: 12px;

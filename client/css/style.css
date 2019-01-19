@@ -87,6 +87,9 @@ width: 16px; height: 16px;
 	xvertical-align: inherit;
 	font-family: inherit;
 	scrollbar-width: thin;
+	scrollbar: -webkit-scrollbar {
+	  width: 1px;
+	}
 	xcolor: #444;
 	padding: 0;
 	margin: 0;
@@ -99,15 +102,15 @@ width: 16px; height: 16px;
 
 }
 
-.card-edit-form  textarea::-webkit-scrollbar {
-  width: 15px;
+.card-edit-form  input textarea::-webkit-scrollbar {
+  width: 1px;
 }
 
-card-edit-form textarea::-webkit-scrollbar-track {
+card-edit-form input textarea::-webkit-scrollbar-track {
   background: #FFF;
 }
 
-card-edit-form  textarea::-webkit-scrollbar-thumb {
+card-edit-form  input textarea::-webkit-scrollbar-thumb {
   background: #666;
 	outline: 2px solid slategrey;
 }
@@ -638,4 +641,8 @@ img {
 }
 #revisions-list li img {
     margin-left: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
 }
