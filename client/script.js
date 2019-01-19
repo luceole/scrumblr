@@ -369,23 +369,23 @@ function moveCard(card, position) {
 
 function addSticker(cardId, stickerId) {
 
-  stickerContainer = $('#' + cardId + ' .filler');
 
+  console.log(stickerId)
+  console.log(origin)
+  stickerContainer = $('#' + cardId + ' .filler');
   if (stickerId === "nosticker") {
     stickerContainer.html("");
     return;
-  }
-
-
+   }
+  console.log(stickerId)
+  console.log(origin)
   if (Array.isArray(stickerId)) {
     for (var i in stickerId) {
-      stickerContainer.prepend('<img src="' + origin + '"images/stickers/' + stickerId[i] +
-        '.png">');
+      stickerContainer.prepend('<img src="' + origin + 'images/stickers/' + stickerId[i] +'.png">');
     }
   } else {
     if (stickerContainer.html().indexOf(stickerId) < 0)
-      stickerContainer.prepend('<img src="' + origin + '"images/stickers/' + stickerId +
-        '.png">');
+      stickerContainer.prepend('<img src="' + origin + 'images/stickers/' + stickerId +'.png">');
   }
 
 }
@@ -466,15 +466,15 @@ function drawNewColumn(columnName) {
     return (value);
   }, {
     style: 'inherit',
-    cssclass: 'card-edit-form',
-    type: 'textarea',
-    // cols:"20", wrap:"hard",
-    placeholder: 'Titre',
+    cssclass: 'title-edit-form',
+    //type: 'textarea',
+    placeholder: 'Titre !!',
+    // border: 'none',
     onblur: 'submit',
     width: '',
     height: '',
-    xindicator: '<img src ="' + location.origin + '"images/ajax-loader.gif">',
-    event: 'dblclick', //event: 'mouseover'
+    // xindicator: '<img src ="' + location.origin + '"images/ajax-loader.gif">',
+    event: 'dblclick'
   });
 
   $('.col:last').fadeIn(1500);
@@ -560,12 +560,9 @@ function deleteColumns(next) {
 function initColumns(columnArray) {
   totalcolumns = 0;
   columns = columnArray;
-
   $('.col').remove();
-
   for (var i in columnArray) {
     column = columnArray[i];
-
     drawNewColumn(
       column
     );

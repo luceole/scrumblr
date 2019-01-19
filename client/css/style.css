@@ -1,6 +1,3 @@
-
-
-
 body {
 	font-family: 'Helvetica Neue Light', arial, serif;
 	font-size: 13px;
@@ -50,7 +47,7 @@ background-image: url('bg/stucco.png');
 
 	x-webkit-transform:rotate(0.3deg); /*"is that a little off-level? i feel like it is off-level"*/
 }
-/*
+
 #board-doodles {
 	width: 100%;
 	height: 100%;
@@ -58,7 +55,7 @@ background-image: url('bg/stucco.png');
 	display: inline;
 	opacity: 0.035;
 	/* background-image: url('scribbles2.png'); */
-} */
+}
 
 
 
@@ -79,6 +76,26 @@ width: 16px; height: 16px;
 	opacity: .9;
 }
 
+
+.title-edit-form, .title-edit-form input, .tilte-edit-form textarea {
+	border: none;
+	font-size:inherit;
+	font-weight:inherit;
+	background-color:inherit;
+	xvertical-align: inherit;
+	font-family: inherit;
+	text-align: center;
+	xcolor: #444;
+	padding: 0;
+	margin: 0;
+	outline-width:0;
+	overflow: hidden;
+	resize: none;
+	width: 100%;
+	color: #330066;
+	color: #666;
+}
+
 .card-edit-form, .card-edit-form input, .card-edit-form textarea {
 	border: none;
 	font-size:inherit;
@@ -87,9 +104,6 @@ width: 16px; height: 16px;
 	xvertical-align: inherit;
 	font-family: inherit;
 	scrollbar-width: thin;
-	scrollbar: -webkit-scrollbar {
-	  width: 1px;
-	}
 	xcolor: #444;
 	padding: 0;
 	margin: 0;
@@ -99,8 +113,14 @@ width: 16px; height: 16px;
 	width: 100%;
 	color: #330066;
 	color: #666;
-
+	scrollbar: -webkit-scrollbar {
+	  width: 1px;
+	};
 }
+
+
+
+
 
 .card-edit-form  input textarea::-webkit-scrollbar {
   width: 1px;
@@ -301,6 +321,7 @@ xopacity: .5;
 .sticker {
 	padding-top:  0px;
  	padding-left: 2px;
+	z-index: 1;
 	xz-index:10;
 	display: inline-block;
 	width: 11px;
@@ -309,7 +330,7 @@ xopacity: .5;
 }
 
 .stickers {
-		position: absolute; bottom: 10%; right: 2%;
+		position: absolute; bottom: 5%; right: 1%;
 	/* width: 100px;
 	text-align: right; */
 	padding-top: 2px; margin: 0;
@@ -356,7 +377,6 @@ xopacity: .5;
 	background-image: url('../images/icons/iconic/raster/black/plus_8x8.png');
 	background-position: 2px 2px;
 	opacity: 0.3;
-
 	display: inline-block;
 	width: 11px;
 	height: 11px;

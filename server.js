@@ -70,11 +70,11 @@ var addName = function(token, req, resp) {
 }
 
 
-//router.get('/', keycloak.protect(addName), function(req, res) {
+  //router.get('/', keycloak.protect(addName), function(req, res) {
   router.get('/',  function(req, res) {
   //url = req.header('host') + req.baseUrl;
-  sandstormUsername = (NameSSO)? NameSSO : "NoOne";
-  res.cookie('scrumscrum-username', sandstormUsername);
+  // sandstormUsername = (NameSSO)? NameSSO : "NoOne";
+  // res.cookie('scrumscrum-username', sandstormUsername);
   res.render('home.jade', {
     locals: {
       pageTitle: ('E-Board ' + req.params.id)
@@ -118,7 +118,7 @@ router.get('/:uid/:id', keycloak.protect(addName), function(req, res) {
 
 router.get('/:id', keycloak.protect(addName), function(req, res) {
   res.render('index.jade', {
-    //  uid: NameSSO,
+    uid: NameSSO,
     url: conf.baseurl,
     pageTitle: ('E-Board ' + req.params.id)
   });
@@ -483,10 +483,13 @@ function initClient(client) {
 
 function joinRoom(client, room, successFunction) {
   var msg = {};
+  sids_to_user_names[client.id] = NameSSO;
+  //console.log(NameSSO + "joinRoom " + room )
   msg.action = 'join-announce';
   msg.data = {
     sid: client.id,
     user_name: NameSSO
+
   };
 
   rooms.add_to_room_and_announce(client, room, msg);
@@ -502,7 +505,7 @@ function leaveRoom(client) {
   };
   rooms.remove_from_all_rooms_and_announce(client, msg);
 
-  delete sids_to_user_names[client.id];
+delete sids_to_user_names[client.id];
 }
 
 function broadcastToRoom(client, message) {
@@ -542,8 +545,7 @@ function getRoom(client, callback) {
 function setUserName(client, name) {
   client.user_name = NameSSO;
   sids_to_user_names[client.id] = NameSSO;
-  //console.log('sids to user names: ');
-  //  console.dir(sids_to_user_names);
+
 }
 
 function cleanAndInitializeDemoRoom() {
@@ -552,16 +554,15 @@ function cleanAndInitializeDemoRoom() {
     db.createColumn('/demo', 'A Faire');
     db.createColumn('/demo', 'En COURS');
     db.createColumn('/demo', 'A TESTER');
-    db.createColumn('/demo', 'OK!');
+    db.createColumn('/demo', 'OK ');
 
 
     createCard('/demo', 'card1', '<p align="center">Hello  </p> Vous pouvez écrire en <b>HTML</b> ', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
-    createCard('/demo', 'card2', 'Vous pouvez mettre des liens externes [GitHub](https://github.com "Allez sur la GitHub")', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'white');
+    createCard('/demo', 'card2', 'Vous pouvez Ecrire En **MARKDOWN** \n * Une puce \n * Une autre!"', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'white');
     createCard('/demo', 'card3', 'Double Click pour modifier', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'blue');
     createCard('/demo', 'card4', ' Lien en MarkDown [GitHub](https://github.com/ "Allez sur GitHub")', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'green');
-
-    createCard('/demo', 'card5', 'Hello this is fun', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
-    createCard('/demo', 'card6', 'Hello this is a new card.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
+    createCard('/demo', 'card5', 'Bonjour le Monde !', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
+    createCard('/demo', 'card6', '**Une Image :**<img src="https://pcll.ac-dijon.fr/eole/wp-content/uploads/sites/4/2015/06/logo-300x163.png" alt="drawing" width="80"/>', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
     // createCard('/demo', 'card7', '.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'blue');
     // createCard('/demo', 'card8', '.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'green');
   });
