@@ -50,12 +50,14 @@ display: block;
 	/* width:  190px;
 	height: 145px;
 	margin: 15px 10px 0px 25px; */
-	font-family: 'Covered By Your Grace',"Arial Rounded MT Bold", arial, serif;
-	font-size: 18px;
+	//font-family: 'Covered By Your Grace',"Arial Rounded MT Bold", arial, serif;
+	font-family: "Arial Rounded MT Bold" , arial, serif;
+	font-size: 16px;
 	letter-spacing: 0px;
 	xtext-shadow: 0px 0px 1px #444;
 	opacity: 1;
 	color: black;
+
   /* background-color: blue; */
 	background-position: center; /* Center the image */
 	background-repeat: no-repeat; /* Do not repeat the image */

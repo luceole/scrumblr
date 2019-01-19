@@ -1,6 +1,6 @@
 .card {
-	width: 115px;
-	height: 76px;
+	width: 172px;
+	height: 120px;
 	xpadding: 5px; float: left;
 	xmargin: 0 10px 10px 0;
 	font-size: .9em;
@@ -17,13 +17,10 @@
 
 .pink {
 }
-
 .yellow {
 }
-
 .blue {
 }
-
 .green {
 }
 
@@ -39,10 +36,14 @@
 
 .content {
 	overflow: hidden;
+	overflow-x: hidden;
 	display: block;
-	width: 85px;
-	height: 60px;
-	margin: 5px 10px 0px 19px;
+	width: 120px;
+	height: 66px;
+	 margin: 12px 22px 75px 33px;
+	//margin: 15px 30px 100px 44px;
+  scrollbar-width: thin;
+	scrollbar-width: thin;
 	font-family: "Arial Rounded MT Bold" , arial, serif;
 	font-size: 10px;
 	letter-spacing: 0px;
@@ -50,9 +51,10 @@
 	xtext-shadow: 0px 0px 1px #444;
 	opacity: 1;
 	color: #333;
-	text-align: center;
+	/* text-align: center; */
 	padding-top: 8px;
 }
+
 
 .filler {
 	margin-right: 12px;
@@ -66,16 +68,12 @@
 	width: 79px;
 	height: 45px;
 	margin: 0px 10px 0px 19px;
-
 	font-family: "Arial Rounded MT Bold", "Arial" , arial, serif;
 	xfont-size: 10px;
 	letter-spacing: 0px;
 	line-height: 8px;
-
-	xtext-shadow: 0px 0px 1px #444;
-
+  xtext-shadow: 0px 0px 1px #444;
 	opacity: 1;
-
 	color: #333;
 	text-align: center;
 	padding-top: 8px;

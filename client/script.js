@@ -11,6 +11,7 @@ var socket = io.connect({
   path: baseurl + "/socket.io"
 });
 marked.setOptions({
+  breaks: true,
   linksInNewTab: true
 });
 moment.locale(navigator.language || navigator.languages[0]);
@@ -467,6 +468,7 @@ function drawNewColumn(columnName) {
     style: 'inherit',
     cssclass: 'card-edit-form',
     type: 'textarea',
+    // cols:"20", wrap:"hard",
     placeholder: 'Titre',
     onblur: 'submit',
     width: '',

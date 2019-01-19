@@ -69,9 +69,11 @@ var addName = function(token, req, resp) {
   return true
 }
 
-router.get('/', keycloak.protect(addName), function(req, res) {
+
+//router.get('/', keycloak.protect(addName), function(req, res) {
+  router.get('/',  function(req, res) {
   //url = req.header('host') + req.baseUrl;
-  sandstormUsername = NameSSO;
+  sandstormUsername = (NameSSO)? NameSSO : "NoOne";
   res.cookie('scrumscrum-username', sandstormUsername);
   res.render('home.jade', {
     locals: {
@@ -547,22 +549,21 @@ function setUserName(client, name) {
 function cleanAndInitializeDemoRoom() {
   // DUMMY DATA
   db.clearRoom('/demo', function() {
-    db.createColumn('/demo', 'Not Started');
-    db.createColumn('/demo', 'Started');
-    db.createColumn('/demo', 'Testing');
-    db.createColumn('/demo', 'Review');
-    db.createColumn('/demo', 'Complete');
+    db.createColumn('/demo', 'A Faire');
+    db.createColumn('/demo', 'En COURS');
+    db.createColumn('/demo', 'A TESTER');
+    db.createColumn('/demo', 'OK!');
 
 
-    createCard('/demo', 'card1', 'Hello this is fun', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
-    createCard('/demo', 'card2', 'Hello this is a new story.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'white');
-    createCard('/demo', 'card3', '.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'blue');
-    createCard('/demo', 'card4', '.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'green');
+    createCard('/demo', 'card1', '<p align="center">Hello  </p> Vous pouvez écrire en <b>HTML</b> ', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
+    createCard('/demo', 'card2', 'Vous pouvez mettre des liens externes [GitHub](https://github.com "Allez sur la GitHub")', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'white');
+    createCard('/demo', 'card3', 'Double Click pour modifier', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'blue');
+    createCard('/demo', 'card4', ' Lien en MarkDown [GitHub](https://github.com/ "Allez sur GitHub")', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'green');
 
     createCard('/demo', 'card5', 'Hello this is fun', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
     createCard('/demo', 'card6', 'Hello this is a new card.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
-    createCard('/demo', 'card7', '.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'blue');
-    createCard('/demo', 'card8', '.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'green');
+    // createCard('/demo', 'card7', '.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'blue');
+    // createCard('/demo', 'card8', '.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'green');
   });
 }
 
