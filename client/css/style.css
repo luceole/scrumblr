@@ -329,6 +329,7 @@ xopacity: .5;
 	background-repeat: no-repeat;
 }
 
+
 .stickers {
 		position: absolute; bottom: 5%; right: 1%;
 	/* width: 100px;
@@ -652,8 +653,16 @@ img {
 	padding-top: 0;
 	padding-bottom: 0;
 }
+.export,  .import, .revisions {
+  /* cursor: pointer; */
+	opacity: 0.6;
+}
 
+.export:hover, .import:hover, .revisions:hover {
+	opacity: 0.9;
+}
 .export button, .import label {
+
     margin-right: 15px;
 }
 #revisions-list li > * {

@@ -12,8 +12,10 @@ var socket = io.connect({
 });
 marked.setOptions({
   breaks: true,
-  linksInNewTab: true
+  linksInNewTab: true,
+  langPrefix: navigator.language || navigator.languages[0]
 });
+
 moment.locale(navigator.language || navigator.languages[0]);
 
 //an action has happened, send it to the
@@ -376,16 +378,16 @@ function addSticker(cardId, stickerId) {
   if (stickerId === "nosticker") {
     stickerContainer.html("");
     return;
-   }
+  }
   console.log(stickerId)
   console.log(origin)
   if (Array.isArray(stickerId)) {
     for (var i in stickerId) {
-      stickerContainer.prepend('<img src="' + origin + 'images/stickers/' + stickerId[i] +'.png">');
+      stickerContainer.prepend('<img src="' + origin + 'images/stickers/' + stickerId[i] + '.png">');
     }
   } else {
     if (stickerContainer.html().indexOf(stickerId) < 0)
-      stickerContainer.prepend('<img src="' + origin + 'images/stickers/' + stickerId +'.png">');
+      stickerContainer.prepend('<img src="' + origin + 'images/stickers/' + stickerId + '.png">');
   }
 
 }
@@ -743,9 +745,9 @@ function download(filename, text) {
 }
 
 function addRevision(timestamp) {
-  var li = $('<li id="revision-' + timestamp + '"></li>');
+  var li = $('<li title="Télécharger la révision" id="revision-' + timestamp + '"></li>');
   var s1 = $('<span></span>');
-  var s2 = $('<img src="' + origin + '"images/stickers/sticker-deletestar.png" alt="delete revision">');
+  var s2 = $('<img src="images/stickers/sticker-deletestar.png" alt="delete revision" title="Effacer la révision">');
   if (typeof(timestamp) === 'string') {
     timestamp = parseInt(timestamp);
   }
@@ -934,6 +936,14 @@ $(function() {
   });
 
   $(".export").accordion({
+    icons: {
+      "header": "ui-icon-plus",
+      "activeHeader": "ui-icon-minus"
+    },
+    classes: {
+      "ui-accordion": "highlight"
+    },
+    cursor: true,
     collapsible: true,
     active: false
   });

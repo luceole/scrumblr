@@ -60,7 +60,7 @@ display: block;
 	background-repeat: no-repeat; /* Do not repeat the image */
 	background-size: cover; /* Resize the background image to cover the entire container */
 	/* text-align: center; */
-	padding-top: 9px;
+	padding-top: 8px;
 	xline-height: 12px;
 	xopacity: .8;
 

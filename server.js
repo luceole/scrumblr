@@ -70,8 +70,8 @@ var addName = function(token, req, resp) {
 }
 
 
-  //router.get('/', keycloak.protect(addName), function(req, res) {
-  router.get('/',  function(req, res) {
+//router.get('/', keycloak.protect(addName), function(req, res) {
+router.get('/', function(req, res) {
   //url = req.header('host') + req.baseUrl;
   // sandstormUsername = (NameSSO)? NameSSO : "NoOne";
   // res.cookie('scrumscrum-username', sandstormUsername);
@@ -92,6 +92,15 @@ router.get('/demo', function(req, res) {
   });
 });
 router.get('/public/:id', function(req, res) {
+  console.log(conf.public)
+  if (!conf.public) {
+    res.status(404);
+    res.render('error.jade', {
+      title: "Acces Public Non Autorisé "
+
+    });
+
+  }
   res.render('index.jade', {
     uid: "Inconnu",
     url: conf.baseurl,
@@ -505,7 +514,7 @@ function leaveRoom(client) {
   };
   rooms.remove_from_all_rooms_and_announce(client, msg);
 
-delete sids_to_user_names[client.id];
+  delete sids_to_user_names[client.id];
 }
 
 function broadcastToRoom(client, message) {

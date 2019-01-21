@@ -47,10 +47,10 @@
 	font-family: "Arial Rounded MT Bold" , arial, serif;
 	font-size: 10px;
 	letter-spacing: 0px;
-	line-height: 9px;
-	xtext-shadow: 0px 0px 1px #444;
+	line-height: 11px;
+	/* xtext-shadow: 0px 0px 1px #444;
 	opacity: 1;
-	color: #333;
+	color: #333; */
 	/* text-align: center; */
 	padding-top: 8px;
 }
