@@ -91,3 +91,11 @@
 	text-align: center;
 	padding-top: 8px;
 }
+
+img[src*="#full"] {
+   width:115px;
+}
+
+img[src*="#mini"] {
+   width:50px;
+}

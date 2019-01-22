@@ -789,6 +789,7 @@ $(function() {
 
   $("#create-card")
     .click(function() {
+
       var rotation = Math.random() * 10 - 5; //add a bit of random rotation (+/- 10deg)
       uniqueID = Math.round(Math.random() * 99999999); //is this big enough to assure uniqueness?
       //alert(uniqueID);
@@ -799,8 +800,59 @@ $(function() {
         rotation,
         randomCardColour());
     });
+  $("#create-cardB")
+    .click(function() {
 
+      var rotation = Math.random() * 10 - 5; //add a bit of random rotation (+/- 10deg)
+      uniqueID = Math.round(Math.random() * 99999999); //is this big enough to assure uniqueness?
+      //alert(uniqueID);
+      createCard(
+        'card' + uniqueID,
+        '',
+        58, $('div.board-outline').height(), // hack - not a great way to get the client/views card coordinates, but most consistant ATM
+        rotation,
+        "blue");
+    });
+  $("#create-cardG")
+    .click(function() {
 
+      var rotation = Math.random() * 10 - 5; //add a bit of random rotation (+/- 10deg)
+      uniqueID = Math.round(Math.random() * 99999999); //is this big enough to assure uniqueness?
+      //alert(uniqueID);
+      createCard(
+        'card' + uniqueID,
+        '',
+        58, $('div.board-outline').height(), // hack - not a great way to get the client/views card coordinates, but most consistant ATM
+        rotation,
+        "green");
+    });
+  $("#create-cardY")
+    .click(function() {
+
+      var rotation = Math.random() * 10 - 5; //add a bit of random rotation (+/- 10deg)
+      uniqueID = Math.round(Math.random() * 99999999); //is this big enough to assure uniqueness?
+      //alert(uniqueID);
+      createCard(
+        'card' + uniqueID,
+        '',
+        58, $('div.board-outline').height(), // hack - not a great way to get the client/views card coordinates, but most consistant ATM
+        rotation,
+        "yellow");
+    });
+
+  $("#create-cardW")
+    .click(function() {
+
+      var rotation = Math.random() * 10 - 5; //add a bit of random rotation (+/- 10deg)
+      uniqueID = Math.round(Math.random() * 99999999); //is this big enough to assure uniqueness?
+      //alert(uniqueID);
+      createCard(
+        'card' + uniqueID,
+        '',
+        58, $('div.board-outline').height(), // hack - not a great way to get the client/views card coordinates, but most consistant ATM
+        rotation,
+        "white");
+    });
 
   // Style changer
   $("#smallify").click(function() {
@@ -936,16 +988,12 @@ $(function() {
   });
 
   $(".export").accordion({
-    icons: {
-      "header": "ui-icon-plus",
-      "activeHeader": "ui-icon-minus"
-    },
     classes: {
       "ui-accordion": "highlight"
     },
     cursor: true,
     collapsible: true,
-    active: false
+    active: true
   });
 
   $(".import").accordion({
@@ -995,7 +1043,7 @@ $(function() {
         data: JSON.parse(text)
       });
     };
-    fr.readAsBinaryString(f);
+    fr.readAsText(f);
   })
 
   $('#create-revision').click(function() {

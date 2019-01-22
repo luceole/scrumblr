@@ -95,3 +95,11 @@ display: block;
 .stickertarget {
 	position: absolute;
 }
+
+img[src*="#full"] {
+   width:150px;
+}
+
+img[src*="#mini"] {
+   width:80px;
+}

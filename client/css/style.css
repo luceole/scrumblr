@@ -612,8 +612,16 @@ img {
 	color: #999
 }
 
+.table-menu {
+	width:90%;
 
+}
+	.table-menu td {
 
+		/* background:white; */
+    vertical-align: top;
+
+	}
 
 
 

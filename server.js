@@ -571,8 +571,8 @@ function cleanAndInitializeDemoRoom() {
     createCard('/demo', 'card3', 'Double Click pour modifier', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'blue');
     createCard('/demo', 'card4', ' Lien en MarkDown [GitHub](https://github.com/ "Allez sur GitHub")', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'green');
     createCard('/demo', 'card5', 'Bonjour le Monde !', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
-    createCard('/demo', 'card6', '**Une Image :**<img src="https://pcll.ac-dijon.fr/eole/wp-content/uploads/sites/4/2015/06/logo-300x163.png" alt="drawing" width="80"/>', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
-    // createCard('/demo', 'card7', '.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'blue');
+    createCard('/demo', 'card6', '![](https://pcll.ac-dijon.fr/eole/wp-content/uploads/sites/4/2015/06/logo-300x163.png#full)', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
+    createCard('/demo', 'card7', '![](https://pcll.ac-dijon.fr/eole/wp-content/uploads/sites/4/2015/06/logo-300x163.png#mini) \n Mini Image avec du texte', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
     // createCard('/demo', 'card8', '.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'green');
   });
 }
