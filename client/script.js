@@ -671,13 +671,11 @@ function getCookie(c_name) {
 
 function setName(name) {
   sendAction('setUserName', name);
-
   setCookie('scrumscrum-username', name, 365);
 }
 
 function displayInitialUsers(users) {
   for (var i in users) {
-    //console.log(users);
     displayUserJoined(users[i].sid, users[i].user_name);
   }
 }
@@ -1123,15 +1121,20 @@ $(function() {
   $('#active-meet').click(function() {
     if (!meet) {
       var element = document.createElement('div');
-      element.setAttribute("id", "mydiv")
+      element.style.width = "220px";
+      element.style.height = "285px";
+      element.style.top = "55%";
+      element.style.left = "50%"
+      element.setAttribute("id", "mydiv");
       var barre = document.createElement('div');
       barre.setAttribute("id", "mydivheader")
-      barre.innerHTML = "<center> VISIO   <img src='images/icons/token/Xion.png'class='visio-icon' id='close-visio'>"
-      // $("#active-meet").css("border", "3px solid red");
-
+      barre.innerHTML = "<center> Chargement ...   <img src='images/icons/token/Xion.png'class='visio-icon' id='close-visio'>"
+      var visio = document.createElement('div');
+      visio.style.width = "100%";
+      visio.style.height = "270px";
       element.appendChild(barre)
+      element.appendChild(visio);
       document.body.appendChild(element);
-
       $('#close-visio').click(function() {
         meet.dispose()
         meet = null;
@@ -1139,19 +1142,31 @@ $(function() {
       });
 
       dragElement(element);
-      var domain = "jitsi.mim.ovh";
+      //var domain = "jitsi.mim.ovh";
+      var domain = "meet.jit.si";
       var options = {
         roomName: "JitsiMeetAPIExample",
         width: "100%",
-        height: "200px",
-        overflow: "auto",
+        //height: "250px",
         interfaceConfigOverwrite: {
-          filmStripOnly: true
+        filmStripOnly: true,
+        DEFAULT_REMOTE_DISPLAY_NAME: 'Inconnus',
+        DEFAULT_LOCAL_DISPLAY_NAME: 'Moi',
+        SHOW_JITSI_WATERMARK: true,
+        DEFAULT_BACKGROUND: '#000000'
         },
         //parentNode: document.querySelector('#meet')
-        parentNode: element
+        parentNode: visio
       }
       meet = new JitsiMeetExternalAPI(domain, options);
+      meet.addEventListener("videoConferenceJoined", function(r) {
+      barre.innerHTML="<center> VISIO   <img src='images/icons/token/Xion.png'class='visio-icon' id='close-visio'>";
+      $('#close-visio').click(function() {
+        meet.dispose()
+        meet = null;
+        document.body.removeChild(element);
+      });
+    });
       meet.addEventListener("readyToClose", function(r) {
         meet.dispose()
         meet = null;

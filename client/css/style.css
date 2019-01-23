@@ -65,7 +65,7 @@ background-image: url('bg/stucco.png');
 
 .visio-icon{
 position: absolute;
-top: 2%;left: 94%;
+top: 1%;left: 94%;
 width: 10px; height: 10px;
 z-index: 10;
 }
