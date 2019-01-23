@@ -389,7 +389,9 @@ io.sockets.on('connection', function(client) {
       case 'createRevision':
         createRevision(client, message.data);
         break;
-
+      case 'applyRevision':
+        applyRevision(client, message.data);
+        break;
       case 'deleteRevision':
         deleteRevision(client, message.data);
         break;
@@ -848,6 +850,22 @@ function deleteRevision(client, timestamp) {
       };
       broadcastToRoom(client, msg);
       client.json.send(msg);
+    });
+  });
+}
+
+function applyRevision(client, timestamp) {
+  console.log("APPLYREV")
+  getRoom(client, function(room) {
+    db.getRevisions(room, function(revisions) {
+      if (revisions !== null && revisions[timestamp + ''] !== undefined) {
+        importJson(client, revisions[timestamp + ''])
+      } else {
+        client.json.send({
+          action: 'message',
+          data: 'Unable to find revision ' + timestamp + '.'
+        });
+      }
     });
   });
 }

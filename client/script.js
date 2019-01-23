@@ -167,7 +167,10 @@ function getMessage(m) {
     case 'addRevision':
       addRevision(message.data);
       break;
-
+    case 'applyRevision':
+      allert(" i")
+      applyRevision(message.data);
+      break;
     case 'deleteRevision':
       $('#revision-' + message.data).remove();
       break;
@@ -745,7 +748,7 @@ function download(filename, text) {
 }
 
 function addRevision(timestamp) {
-  var li = $('<li title="Télécharger la révision" id="revision-' + timestamp + '"></li>');
+  var li = $('<li title="Appliquer la révision" id="revision-' + timestamp + '"></li>');
   var s1 = $('<span></span>');
   var s2 = $('<img src="images/stickers/sticker-deletestar.png" alt="delete revision" title="Effacer la révision">');
   if (typeof(timestamp) === 'string') {
@@ -759,7 +762,7 @@ function addRevision(timestamp) {
 
   s1.click(function() {
     socket.json.send({
-      action: 'exportRevision',
+      action: 'applyRevision',
       data: timestamp
     });
   });
