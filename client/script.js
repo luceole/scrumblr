@@ -4,12 +4,18 @@ var columns = [];
 var currentTheme = "bigcards";
 var boardInitialized = false;
 var keyTrap = null;
-
+var meet = null;
+var elmnt = null;
 var baseurl = location.pathname.substring(0, location.pathname.indexOf('/'));
 var origin = location.origin + '/';
 var socket = io.connect({
   path: baseurl + "/socket.io"
 });
+
+
+
+
+
 marked.setOptions({
   breaks: true,
   linksInNewTab: true,
@@ -85,7 +91,6 @@ function getMessage(m) {
   var data = message.data;
 
   //console.log('<-- ' + action);
-
   switch (action) {
     case 'roomAccept':
       //okay we're accepted, then request initialization
@@ -449,7 +454,63 @@ function initCards(cardArray) {
 
   boardInitialized = true;
   unblockUI();
+
+
 }
+
+
+
+//----------------------------------
+// visio
+//-----------------------------------
+
+
+function dragElement(elmt) {
+  elmnt = elmt;
+  var pos1 = 0,
+    pos2 = 0,
+    pos3 = 0,
+    pos4 = 0;
+  console.log(elmnt)
+  if (document.getElementById(elmnt.id + "header")) {
+    // if present, the header is where you move the DIV from:
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+  }
+}
+
+function dragMouseDown(e) {
+  e = e || window.event;
+  e.preventDefault();
+  // get the mouse cursor position at startup:
+  pos3 = e.clientX;
+  pos4 = e.clientY;
+  document.onmouseup = closeDragElement;
+  // call a function whenever the cursor moves:
+  document.onmousemove = elementDrag;
+}
+
+function elementDrag(e) {
+  e = e || window.event;
+  e.preventDefault();
+  // calculate the new cursor position:
+  pos1 = pos3 - e.clientX;
+  pos2 = pos4 - e.clientY;
+  pos3 = e.clientX;
+  pos4 = e.clientY;
+  // set the element's new position:
+  elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+  elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+}
+
+function closeDragElement() {
+  // stop moving when mouse button is released:
+  document.onmouseup = null;
+  document.onmousemove = null;
+}
+
 
 
 //----------------------------------
@@ -999,7 +1060,7 @@ $(function() {
     active: true
   });
 
-  $(".import").accordion({
+  $(".participants").accordion({
     collapsible: true,
     active: false
   });
@@ -1058,5 +1119,48 @@ $(function() {
       }
     });
   })
+
+  $('#active-meet').click(function() {
+    if (!meet) {
+      var element = document.createElement('div');
+      element.setAttribute("id", "mydiv")
+      var barre = document.createElement('div');
+      barre.setAttribute("id", "mydivheader")
+      barre.innerHTML = "<center> VISIO   <img src='images/icons/token/Xion.png'class='visio-icon' id='close-visio'>"
+      // $("#active-meet").css("border", "3px solid red");
+
+      element.appendChild(barre)
+      document.body.appendChild(element);
+
+      $('#close-visio').click(function() {
+        meet.dispose()
+        meet = null;
+        document.body.removeChild(element);
+      });
+
+      dragElement(element);
+      var domain = "jitsi.mim.ovh";
+      var options = {
+        roomName: "JitsiMeetAPIExample",
+        width: "100%",
+        height: "200px",
+        overflow: "auto",
+        interfaceConfigOverwrite: {
+          filmStripOnly: true
+        },
+        //parentNode: document.querySelector('#meet')
+        parentNode: element
+      }
+      meet = new JitsiMeetExternalAPI(domain, options);
+      meet.addEventListener("readyToClose", function(r) {
+        meet.dispose()
+        meet = null;
+        document.body.removeChild(element);
+      });
+      meet.executeCommand('toggleAudio')
+    }
+
+
+  }); // End Active-meet
 
 });

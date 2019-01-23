@@ -4,13 +4,19 @@ block body
   - if (locals.demo)
     div.notice-bar  Tableau de démonstration
 
+
+
+
   //div.config
   //	i.fa.fa-cog.fa-lg.faded-icon
 
   h1 E-Board - Coopération
 
+
+
   div.board-outline
     div#board
+
 
       div#board-doodles
 
@@ -19,6 +25,7 @@ block body
 
 
       table#board-table.board-table
+
 
         div.stickers
           div.sticker#sticker-red
@@ -54,6 +61,7 @@ block body
 
       td(style="width:50%;")
         div.export
+
           h3 Exporter  & Importer
           div
             p Exporter :
@@ -61,7 +69,7 @@ block body
               button#export-csv CSV format
               button#export-json JSON format
             p Importer
-              label(for="import-input") 
+              label(for="import-input")
               input(type="file" accept=".json")#import-input
               button#import-file Importer
 
@@ -73,6 +81,12 @@ block body
               ul#revisions-list
 
       td(style="width:20%;")
-        p Participants
-        span.you-text (Moi)
-        ul#names-ul
+        div.participants
+
+          h3 Participants
+          div
+            p.you-text (Moi)
+            ul#names-ul
+
+          h3#active-meet Activer la visio
+

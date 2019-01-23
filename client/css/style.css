@@ -63,11 +63,17 @@ background-image: url('bg/stucco.png');
 	xborder: solid rgba(92, 157, 181,0.5) 3px;
 }
 
+.visio-icon{
+position: absolute;
+top: 2%;left: 94%;
+width: 10px; height: 10px;
+z-index: 10;
+}
 
 .card-icon {
 display:none;
 position: absolute;
-top: -1%; left: 94%;
+top: -1%; left: 84%;
 opacity: .3;
 width: 16px; height: 16px;
 }
@@ -682,4 +688,21 @@ img {
 
 ::-webkit-scrollbar {
   width: 0px;
+}
+
+
+#mydiv {
+ position: absolute;
+ z-index: 100;
+ background-color: #f1f1f1;
+ border: 1px solid #d3d3d3;
+ text-align: center;
+}
+
+#mydivheader {
+ padding: 1px;
+ cursor: move;
+ z-index: 101;
+ background-color: #2196F3;
+ color: #ff0;
 }
