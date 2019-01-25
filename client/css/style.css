@@ -683,3 +683,9 @@ img {
 ::-webkit-scrollbar {
   width: 0px;
 }
+@media print {
+* {
+    -webkit-print-color-adjust: exact !important; /*Chrome, Safari */
+    color-adjust: exact !important;  /*Firefox*/
+  }
+}
