@@ -40,8 +40,9 @@ function sendAction(a, d) {
 socket.on('connect', function() {
   //console.log('successful socket.io connect');
 
-  //let the final part of the path be the room name
-  var room = location.pathname.substring(location.pathname.lastIndexOf('/'));
+  //Part of the path be the room name
+  //var room = location.pathname.substring(location.pathname.lastIndexOf('/'));
+  var room = "/"+location.pathname.substring(location.pathname.indexOf('/')).substr(1).replace("/","-");
 
   //imediately join the room which will trigger the initializations
   sendAction('joinRoom', room);
@@ -1123,29 +1124,39 @@ $(function() {
       var element = document.createElement('div');
       element.style.width = "220px";
       element.style.height = "285px";
-      element.style.top = "55%";
-      element.style.left = "50%"
+      element.style.top = "25%";
+      element.style.left = "75%"
       element.setAttribute("id", "mydiv");
       var barre = document.createElement('div');
       barre.setAttribute("id", "mydivheader")
-      barre.innerHTML = "<center> Chargement ...   <img src='images/icons/token/Xion.png'class='visio-icon' id='close-visio'>"
+      barre.innerHTML = "<center> Chargement ...   <img src='/images/icons/token/Xion.png'class='visio-icon' id='close-visio'>"
       var visio = document.createElement('div');
       visio.style.width = "100%";
-      visio.style.height = "270px";
+      visio.style.height = "95%";
       element.appendChild(barre)
       element.appendChild(visio);
+
       document.body.appendChild(element);
       $('#close-visio').click(function() {
         meet.dispose()
         meet = null;
         document.body.removeChild(element);
       });
+      $('#mydiv').resizable({
+      ghost: false,
+      minWidth: 220,
+      minHeight: 285,
+      maxWidth: 320,
+      maxHeight: 500,
+    });
 
       dragElement(element);
       //var domain = "jitsi.mim.ovh";
       var domain = "meet.jit.si";
+      var room = location.pathname.substring(location.pathname.indexOf('/')).substr(1).replace("/","");
+      //alert(room)
       var options = {
-        roomName: "JitsiMeetAPIExample",
+        roomName: "Board"+room,
         width: "100%",
         //height: "250px",
         interfaceConfigOverwrite: {
@@ -1160,7 +1171,7 @@ $(function() {
       }
       meet = new JitsiMeetExternalAPI(domain, options);
       meet.addEventListener("videoConferenceJoined", function(r) {
-      barre.innerHTML="<center> VISIO   <img src='images/icons/token/Xion.png'class='visio-icon' id='close-visio'>";
+      barre.innerHTML="<center> VISIO   <img src='/images/icons/token/Xion.png'class='visio-icon' id='close-visio'>";
       $('#close-visio').click(function() {
         meet.dispose()
         meet = null;
