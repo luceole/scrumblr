@@ -14,7 +14,7 @@ block body
 
 
 
-  div.board-outline
+  div#board-outline.board-outline
     div#board
 
 
@@ -46,7 +46,7 @@ block body
             image#delete-col.col-icon(width='20', height='20', src=locals.url+'images/icons/iconic/raster/black/minus_alt_32x32.png')
 
 
-  table.table-menu
+  table#table-menu.table-menu
 
     tr
       td(style="width:25%;")
@@ -59,7 +59,7 @@ block body
           image#smallify.bottom-icon(width="23",height="23",src=locals.url+"images/icons/cc/black/png/zoom_icon&24.png")
       td(style="width:5%;")
 
-      td(style="width:50%;")
+      td(style="width:55%;")
         div.export
 
           h3 Exporter  & Importer
@@ -80,7 +80,7 @@ block body
             div
               ul#revisions-list
 
-      td(style="width:20%;")
+      td(style="width:15%;")
         div.participants
 
           h3 Participants
@@ -89,4 +89,3 @@ block body
             ul#names-ul
 
           h3#active-meet Activer la visio
-

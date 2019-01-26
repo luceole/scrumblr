@@ -221,8 +221,8 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
 	<img src="' + origin + 'images/icons/token/Xion.png" class="card-icon delete-card-icon" />\
   <div id="content:' + id + '" class="content stickertarget droppable" data-text="">' + marked(text) + '</div><span class="filler"></span></div>';
   var card = $(h);
-  card.css('background-image', 'url(/images/' + colour + '-card.png)');
-  //card.css('background-image', 'url(/images/post-it.png)');
+  card.css('background-image', 'url('+origin+'images/' + colour + '-card.png)');
+
 
 
   card.appendTo('#board');
@@ -727,6 +727,7 @@ function resizeBoard(size) {
     height: size.height,
     width: size.width
   });
+
 }
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
@@ -755,6 +756,7 @@ function calcCardOffset() {
 //doSync is false if you don't want to synchronize
 //with all the other users who are in this room
 function adjustCard(offsets, doSync) {
+  $("#table-menu").width($("#board-outline").width()+20);
   $(".card").each(function() {
     var card = $(this);
     var offset = offsets[this.id];
@@ -782,6 +784,8 @@ function adjustCard(offsets, doSync) {
         moveCard(card, data.position);
         sendAction('moveCard', data);
       }
+
+
 
     }
   });
@@ -1028,9 +1032,11 @@ $(function() {
 
     $(".board-outline").bind("resizestart", function() {
       offsets = calcCardOffset();
+
     });
     $(".board-outline").bind("resize", function(event, ui) {
       adjustCard(offsets, false);
+
     });
     $(".board-outline").bind("resizestop", function(event, ui) {
       boardResizeHappened(event, ui);
@@ -1129,7 +1135,8 @@ $(function() {
       element.setAttribute("id", "mydiv");
       var barre = document.createElement('div');
       barre.setAttribute("id", "mydivheader")
-      barre.innerHTML = "<center> Chargement ...   <img src='/images/icons/token/Xion.png'class='visio-icon' id='close-visio'>"
+      barre.innerHTML = "<center> <img src='" + origin + "images/ajax-loader.gif' width=43 height=11/><img src='"+origin+"/images/icons/token/Xion.png'class='visio-icon' id='close-visio'>"
+      //blockUI('<img src="' + origin + 'images/ajax-loader.gif" width=43 height=11/>');
       var visio = document.createElement('div');
       visio.style.width = "100%";
       visio.style.height = "95%";
@@ -1151,8 +1158,8 @@ $(function() {
     });
 
       dragElement(element);
-      //var domain = "jitsi.mim.ovh";
-      var domain = "meet.jit.si";
+      //var domain = "meet.jit.si";
+      var domain=(configClient.jitsi)?configClient.jitsi:"meet.jit.si";
       var room = location.pathname.substring(location.pathname.indexOf('/')).substr(1).replace("/","");
       //alert(room)
       var options = {
@@ -1171,7 +1178,7 @@ $(function() {
       }
       meet = new JitsiMeetExternalAPI(domain, options);
       meet.addEventListener("videoConferenceJoined", function(r) {
-      barre.innerHTML="<center> VISIO   <img src='/images/icons/token/Xion.png'class='visio-icon' id='close-visio'>";
+      barre.innerHTML="<center> VISIO   <img src='"+origin+"images/icons/token/Xion.png'class='visio-icon' id='close-visio'>";
       $('#close-visio').click(function() {
         meet.dispose()
         meet = null;
