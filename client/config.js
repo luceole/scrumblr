@@ -1,1 +1,1 @@
-configClient = {jitsi: "jitsi.mim.ovh"}
+configClient = {jitsi: "jitsi.mim.ovh", secret: "mypoorsecret"}

@@ -42,8 +42,8 @@ socket.on('connect', function() {
 
   //Part of the path be the room name
   //var room = location.pathname.substring(location.pathname.lastIndexOf('/'));
-  var room = "/"+location.pathname.substring(location.pathname.indexOf('/')).substr(1).replace("/","-");
-
+  var room = "/"+location.pathname.substring(location.pathname.indexOf('/')).substr(1).replace(/#/g,"").replace("/","#");
+  console.log(room)
   //imediately join the room which will trigger the initializations
   sendAction('joinRoom', room);
 });
@@ -1160,8 +1160,9 @@ $(function() {
       dragElement(element);
       //var domain = "meet.jit.si";
       var domain=(configClient.jitsi)?configClient.jitsi:"meet.jit.si";
-      var room = location.pathname.substring(location.pathname.indexOf('/')).substr(1).replace("/","");
-      //alert(room)
+      var secret=(configClient.secret)?configClient.secret:"NoSecret";
+      var room = location.pathname.substring(location.pathname.indexOf('/')).substr(1).replace("/","")+secret;
+      alert(room)
       var options = {
         roomName: "Board"+room,
         width: "100%",
