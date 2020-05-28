@@ -21,6 +21,7 @@
     "express-session": "^1.15.6",
     "jade": "~1.5.0",
     "keycloak-connect": "4.5.0",
+    "nodemon": "^1.19.0",
     "redis": "~0.12.1",
     "sanitizer": "~0.1.1",
     "simplesets": "~1.2.0",

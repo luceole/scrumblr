@@ -814,7 +814,7 @@ function download(filename, text) {
 function addRevision(timestamp) {
   var li = $('<li title="Appliquer la révision" id="revision-' + timestamp + '"></li>');
   var s1 = $('<span></span>');
-  var s2 = $('<img src="images/stickers/sticker-deletestar.png" alt="delete revision" title="Effacer la révision">');
+  var s2 = $('<img src="/images/stickers/sticker-deletestar.png" alt="delete revision" title="Effacer la révision">');
   if (typeof(timestamp) === 'string') {
     timestamp = parseInt(timestamp);
   }
@@ -851,7 +851,7 @@ $(function() {
   if (boardInitialized === false)
     blockUI('<img src="' + origin + 'images/ajax-loader.gif" width=43 height=11/>');
 
-  //setTimeout($.unblockUI, 2000);
+  setTimeout($.unblockUI, 2000);
 
 
   $("#create-card")
@@ -1159,25 +1159,27 @@ $(function() {
 
       dragElement(element);
       //var domain = "meet.jit.si";
+      //var secret="NoSecret";
       var domain=(configClient.jitsi)?configClient.jitsi:"meet.jit.si";
       var secret=(configClient.secret)?configClient.secret:"NoSecret";
       var room = location.pathname.substring(location.pathname.indexOf('/')).substr(1).replace("/","")+secret;
-      alert(room)
       var options = {
         roomName: "Board"+room,
         width: "100%",
         //height: "250px",
         interfaceConfigOverwrite: {
         filmStripOnly: true,
+        VERTICAL_FILMSTRIP: true,
         DEFAULT_REMOTE_DISPLAY_NAME: 'Inconnus',
         DEFAULT_LOCAL_DISPLAY_NAME: 'Moi',
-        SHOW_JITSI_WATERMARK: true,
+        SHOW_JITSI_WATERMARK: false,
         DEFAULT_BACKGROUND: '#000000'
         },
         //parentNode: document.querySelector('#meet')
         parentNode: visio
       }
       meet = new JitsiMeetExternalAPI(domain, options);
+      meet.executeCommand('subject', ' ');
       meet.addEventListener("videoConferenceJoined", function(r) {
       barre.innerHTML="<center> VISIO   <img src='"+origin+"images/icons/token/Xion.png'class='visio-icon' id='close-visio'>";
       $('#close-visio').click(function() {
