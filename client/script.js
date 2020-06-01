@@ -218,8 +218,9 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
   */
   var h = '<div id="' + id + '" class="card ' + colour +
     ' draggable" style="-webkit-transform:rotate(' + rot + 'deg);">\
+  <img src="' + origin + 'images/icons/cc/black/png/zoom_icon&24.png"class="card-icon1 zoom-card-icon"  /></a>\
 	<img src="' + origin + 'images/icons/token/Xion.png" class="card-icon delete-card-icon" />\
-  <div id="content:' + id + '" class="content stickertarget droppable" data-text="">' + marked(text) + '</div><span class="filler"></span></div>';
+  <div id="content:' + id + '" class="content stickertarget droppable" data-text="">' + marked(text) + '</div><span class="filler"></span></div>'
   var card = $(h);
   card.css('background-image', 'url('+origin+'images/' + colour + '-card.png)');
 
@@ -309,6 +310,7 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
     function() {
       $(this).addClass('hover');
       $(this).children('.card-icon').fadeIn(10);
+      $(this).children('.card-icon1').fadeIn(10);
       // $(this).css('background-image', 'url(/images/' + colour + '-card.png)');
       $(this).css('overflow', 'visible');
       $(this).children('.content').css('overflow', 'auto');
@@ -317,6 +319,7 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
     function() {
       $(this).removeClass('hover');
       $(this).children('.card-icon').fadeOut(150);
+        $(this).children('.card-icon1').fadeOut(150);
       $(this).css('overflow', 'hiden');
       $(this).children('.content').css('overflow', 'hidden');
     }
@@ -330,6 +333,14 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
       $(this).removeClass('card-icon-hover');
     }
   );
+  card.children('.card-icon1').hover(
+    function() {
+      $(this).addClass('card-icon1-hover');
+    },
+    function() {
+      $(this).removeClass('card-icon1-hover');
+    }
+  );
 
   card.children('.delete-card-icon').click(
     function() {
@@ -340,6 +351,67 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
       });
     }
   );
+  //Mega ZOOM
+  // card.children('.zoom-card-icon').mouseleave(
+  //   function() {
+  //     if (document.getElementById("zoomdiv")) {
+  //       document.body.removeChild(document.getElementById("zoomdiv"))
+  //     }
+  //   }
+  //   );
+  card.children('.zoom-card-icon').click(
+    function() {
+      if (document.getElementById("zoomdiv")) {
+        // document.body.removeChild(zelement);
+          var zcontent = document.getElementById("zcontent")
+          // zcontent.innerHTML=marked($("#" + id).children('.content:first').attr('data-text'))
+          zcontent.innerHTML='<div style="padding: 10px;">'+marked($("#" + id).children('.content:first').attr('data-text'))+'</div>'
+          return
+      }
+
+
+      var zelement = document.createElement('div');
+      zelement.style.width = "60>%";
+      zelement.style.height = "50%";
+      zelement.style.top = "15%";
+      zelement.style.left = "30%"
+
+      zelement.setAttribute("id", "zoomdiv");
+      // zelement.setAttribute('resizable', 'both');
+      // zelement.setAttribute('overflow', 'auto');
+
+      var zbarre = document.createElement('div');
+      zbarre.setAttribute("id", "zoomdivheader")
+      zbarre.innerHTML="<div> Consultation <img src='"+origin+"images/icons/token/Xion.png'class='visio-icon' id='close-zcontent'></div>";
+      var zcontent = document.createElement('div');
+
+      zcontent.setAttribute("id", "zcontent")
+      zcontent.setAttribute("class", "zcontent")
+      zcontent.style.width = "100%";
+      zcontent.style.height = "100%";
+
+
+
+      zcontent.innerHTML='<div style="padding: 10px;">'+marked($("#" + id).children('.content:first').attr('data-text'))+'</div>'
+      //visio.innerHTML=$( "#" + id).children('.content:first').html(marked(attr('data-text')))
+      zelement.appendChild(zbarre)
+      zelement.appendChild(zcontent);
+      document.body.appendChild(zelement);
+      dragElement(zelement);
+      $('#close-zcontent').click(function() {
+        document.body.removeChild(zelement);
+      });
+      $('#zoomdiv').resizable({
+         ghost: false,
+         minWidth: 200,
+         minHeight: 200,
+        maxWidth: 800,
+        maxHeight: 800,
+    });
+    }
+
+  );
+
 
   card.children('.content').editable(function(value, settings) {
     $("#" + id).children('.content:first').attr('data-text', value);
@@ -381,15 +453,13 @@ function moveCard(card, position) {
 function addSticker(cardId, stickerId) {
 
 
-  console.log(stickerId)
-  console.log(origin)
+
   stickerContainer = $('#' + cardId + ' .filler');
   if (stickerId === "nosticker") {
     stickerContainer.html("");
     return;
   }
-  console.log(stickerId)
-  console.log(origin)
+
   if (Array.isArray(stickerId)) {
     for (var i in stickerId) {
       stickerContainer.prepend('<img src="' + origin + 'images/stickers/' + stickerId[i] + '.png">');
@@ -1142,7 +1212,6 @@ $(function() {
       visio.style.height = "95%";
       element.appendChild(barre)
       element.appendChild(visio);
-
       document.body.appendChild(element);
       $('#close-visio').click(function() {
         meet.dispose()
@@ -1186,6 +1255,7 @@ $(function() {
         meet.dispose()
         meet = null;
         document.body.removeChild(element);
+
       });
     });
       meet.addEventListener("readyToClose", function(r) {

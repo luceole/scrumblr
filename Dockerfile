@@ -1,5 +1,5 @@
 # Conteneur Scrumblr 
-FROM mhart/alpine-node:6
+FROM mhart/alpine-node:8
 WORKDIR /usr/src/app
 COPY .  /usr/src/app/
 RUN npm install 

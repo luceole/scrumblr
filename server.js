@@ -5,6 +5,7 @@ var http = require('http');
 var sys = require('sys');
 var async = require('async');
 var sanitizer = require('sanitizer');
+var sanitizeHtml = require('sanitize-html');
 var compression = require('compression');
 var express = require('express');
 var session = require('express-session');
@@ -143,8 +144,8 @@ function scrub(text) {
     if (text.length > 65535) {
       text = text.substr(0, 65535);
     }
-
-    return sanitizer.sanitize(text);
+   //return(text);
+  return sanitizeHtml(text, {allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'video' ]),allowedAttributes: false});
   } else {
     return null;
   }
@@ -574,8 +575,9 @@ function cleanAndInitializeDemoRoom() {
     createCard('/demo', 'card4', ' Lien en MarkDown [GitHub](https://github.com/ "Allez sur GitHub")', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'green');
     createCard('/demo', 'card5', 'Bonjour le Monde !', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
     createCard('/demo', 'card6', '![](https://pcll.ac-dijon.fr/eole/wp-content/uploads/sites/4/2015/06/logo-300x163.png#full)', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
-    createCard('/demo', 'card7', '![](https://pcll.ac-dijon.fr/eole/wp-content/uploads/sites/4/2015/06/logo-300x163.png#mini) \n Mini Image avec du texte', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
-    // createCard('/demo', 'card8', '.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'green');
+    createCard('/demo', 'card7', 'Une Vidéo (Iframe)<br><iframe width="100%" heigth="100%" sandbox="allow-same-origin allow-scripts allow-popups" src="https://tube-dijon.beta.education.fr/videos/embed/ce26e5e5-4b94-4e0b-8445-c5096d3aeb8e" frameborder="0" allowfullscreen></iframe>', roundRand(500), roundRand(300), Math.random() * 10 - 5, 'green');
+    createCard('/demo', 'card8', 'Une Vidéo (Video)<br><video  width="100%" controls=1><source src="http://lab11-eole.ac-dijon.fr/media/contribuer.mp4" type="video/mp4"></video>', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'white');
+    // createCard('/demo', 'card9', '.', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'green');
   });
 }
 
