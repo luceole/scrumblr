@@ -9,6 +9,8 @@ var sanitizeHtml = require('sanitize-html');
 var compression = require('compression');
 var express = require('express');
 var session = require('express-session');
+var bodyParser = require('body-parser')
+
 var Keycloak = require('keycloak-connect');
 var cors = require('cors');
 
@@ -34,18 +36,10 @@ var router = express.Router();
 var NameSSO = "Inconnu";
 app.use(compression());
 app.use(cors());
-app.use(session({
-  secret: 'aaslkdhlkhsd',
-  resave: false,
-  saveUninitialized: true,
-  store: memoryStore,
-}))
-var keycloak = new Keycloak({
-  store: memoryStore
-});
-app.use(keycloak.middleware({
-  logout: '/logout'
-}));
+app.use(session({secret: 'aaslkdhlkhsd', resave: false, saveUninitialized: true, store: memoryStore}))
+var keycloak = new Keycloak({store: memoryStore});
+app.use(keycloak.middleware({logout: '/logout'}));
+app.use(bodyParser());
 app.use(conf.baseurl, router);
 router.use(express.static(__dirname + '/client'));
 
@@ -58,7 +52,9 @@ console.log('Server running at http://127.0.0.1:' + conf.port + '/');
  SETUP Socket.IO
 **************/
 var io = require('socket.io')(server, {
-  path: conf.baseurl == '/' ? '' : conf.baseurl + "/socket.io"
+  path: conf.baseurl == '/'
+    ? ''
+    : conf.baseurl + "/socket.io"
 });
 
 /**************
@@ -66,51 +62,130 @@ var io = require('socket.io')(server, {
 **************/
 
 var addName = function(token, req, resp) {
-  NameSSO = token.content.preferred_username;
-  return true
+  if (!token) {
+    NameSSO = ""
+    GrpSSO = ""
+  } else {
+    //console.log("token " + token.content.preferred_username)
+    NameSSO = token.content.preferred_username;
+    GrpSSO = token.content.group
+    //console.log(GrpSSO)
+    return NameSSO
+  }
 }
 
+//router.get('/'demo, keycloak.protect(addName), function(req, res) {
+router.get('/', keycloak.checkSso(), function(req, res) {
+  //url = req.header('host') + req. ;
+  //sandstormUsername = (NameSSO)? NameSSO : "NoOne";
+  //res.cookie('scrumscrum-username', NameSSO);
+  if (req.kauth && req.kauth.grant) {
+    res.render('home1.jade', {
+      locals: {
+        pageTitle: ('E-Board ' + req.params.id)
+      }
+      });
 
-//router.get('/', keycloak.protect(addName), function(req, res) {
-router.get('/', function(req, res) {
-  //url = req.header('host') + req.baseUrl;
-  // sandstormUsername = (NameSSO)? NameSSO : "NoOne";
-  // res.cookie('scrumscrum-username', sandstormUsername);
-  res.render('home.jade', {
+  } else {
+    res.render('home.jade', {
+      locals: {
+        pageTitle: ('E-Board ' + req.params.id)
+      }
+    });
+  }
+});
+
+router.get('/home', keycloak.protect(addName), function(req, res) {
+  //url = req.header('host') + req. ;
+  //sandstormUsername = (NameSSO)? NameSSO : "NoOne";
+  //res.cookie('scrumscrum-username', sandstormUsername);
+  res.render('home1.jade', {
     locals: {
       pageTitle: ('E-Board ' + req.params.id)
     }
   });
 });
-
 router.get('/demo', function(req, res) {
+  // addName();
+  //console.log(req.session.auth_redirect_uri)
+  NameSSO = "Anonyme"
   res.render('index.jade', {
     url: conf.baseurl,
-    uid: "Inconnu",
+    uid: "Anonyme",
     sandstormUsername: "NoOne",
     pageTitle: 'E - Board demo',
     demo: true
   });
 });
-router.get('/public/:id', function(req, res) {
-  console.log(conf.public)
+
+
+router.get('/public/:id', keycloak.checkSso(), function(req, res) {
+
   if (!conf.public) {
     res.status(404);
-    res.render('error.jade', {
-      title: "Acces Public Non Autorisé "
-
-    });
-
+    res.render('error.jade', {title: "Acces Public Non Autorisé "});
   }
-  res.render('index.jade', {
-    uid: "Inconnu",
+//NameSSO="Anomyme"
+
+if (req.kauth && req.kauth.grant) {
+NameSSO=req.kauth.grant.access_token.content.preferred_username;
+res.render('index.jade', {
+  uid: NameSSO,
+  url: conf.baseurl,
+  pageTitle: ('E-Board - ' + req.params.id)
+});
+} else {
+    res.render('index1.jade', {
+    uid: "",
     url: conf.baseurl,
     pageTitle: ('E-Board - ' + req.params.id)
   });
+}
+
 });
 
+router.post('/tab', keycloak.protect(addName), function(req, res) {
+  var id = req.body.type[0]
+  var type = req.body.type[1]
+  if (!id)
+    res.redirect('/');
+  switch (type) {
+    case '1':
+      res.redirect('/' + id);
+      break;
+    case '2':
+      res.redirect('/public/' + id)
+      break;
+    case '3':
+      res.redirect('/' + NameSSO + '/' + id);
+      break;
+
+    default:
+      res.redirect('/');
+  }
+
+  //res.redirect('/'+req.body.name);
+});
+
+router.get('/g/:grp/:id', keycloak.protect(addName), function(req, res) {
+
+  if (GrpSSO.find(element => element == '/' + req.params.grp)) {
+    res.render('index.jade', {
+      uid: NameSSO,
+      url: conf.baseurl,
+      pageTitle: ('E-Board ' + req.params.id)
+    });
+  } else {
+    res.status(404);
+    res.render('error.jade', {
+      title: "Vous n'êtes pas autorisé à consulter ce tableau",
+      error: "Page du groupe " + req.params.grp
+    });
+  }
+});
 
 router.get('/:uid/:id', keycloak.protect(addName), function(req, res) {
+
   if (req.params.uid == NameSSO) {
     res.render('index.jade', {
       uid: NameSSO,
@@ -144,8 +219,11 @@ function scrub(text) {
     if (text.length > 65535) {
       text = text.substr(0, 65535);
     }
-   //return(text);
-  return sanitizeHtml(text, {allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'video' ]),allowedAttributes: false});
+    //return(text);
+    return sanitizeHtml(text, {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat(['video', 'source']),
+      allowedAttributes: false
+    });
   } else {
     return null;
   }
@@ -160,7 +238,8 @@ io.sockets.on('connection', function(client) {
     var clean_message = {};
     var message_out = {};
 
-    if (!message.action) return;
+    if (!message.action)
+      return;
 
     switch (message.action) {
       case 'initializeMe':
@@ -169,10 +248,7 @@ io.sockets.on('connection', function(client) {
 
       case 'joinRoom':
         joinRoom(client, message.data, function(clients) {
-          client.json.send({
-            action: 'roomAccept',
-            data: ''
-          });
+          client.json.send({action: 'roomAccept', data: ''});
 
         });
 
@@ -190,7 +266,6 @@ io.sockets.on('connection', function(client) {
             }
           }
         };
-
 
         broadcastToRoom(client, message_out);
 
@@ -246,7 +321,6 @@ io.sockets.on('connection', function(client) {
 
         break;
 
-
       case 'deleteCard':
         clean_message = {
           action: 'deleteCard',
@@ -281,9 +355,7 @@ io.sockets.on('connection', function(client) {
         getRoom(client, function(room) {
           db.deleteColumn(room);
         });
-        broadcastToRoom(client, {
-          action: 'deleteColumn'
-        });
+        broadcastToRoom(client, {action: 'deleteColumn'});
 
         break;
 
@@ -328,12 +400,11 @@ io.sockets.on('connection', function(client) {
         clean_message.data = scrub(message.data);
 
         setUserName(client, clean_message.data);
-
         var msg = {};
         msg.action = 'nameChangeAnnounce';
         msg.data = {
           sid: client.id,
-          user_name: NameSSO
+          user_name: clean_message.data
         };
         broadcastToRoom(client, msg);
         break;
@@ -415,57 +486,44 @@ io.sockets.on('connection', function(client) {
   //client.broadcast('someone has connected');
 });
 
-
 /**************
  FUNCTIONS
 **************/
 function initClient(client) {
-  //console.log ('initClient Started');
+  //console.log('initClient Started');
   getRoom(client, function(room) {
 
     db.getAllCards(room, function(cards) {
 
-      client.json.send({
-        action: 'initCards',
-        data: cards
-      });
+      client.json.send({action: 'initCards', data: cards});
 
     });
-
 
     db.getAllColumns(room, function(columns) {
-      client.json.send({
-        action: 'initColumns',
-        data: columns
-      });
+      client.json.send({action: 'initColumns', data: columns});
     });
-
 
     db.getRevisions(room, function(revisions) {
       client.json.send({
         action: 'initRevisions',
-        data: (revisions !== null) ? Object.keys(revisions) : new Array()
+        data: (revisions !== null)
+          ? Object.keys(revisions)
+          : new Array()
       });
     });
 
-
     db.getTheme(room, function(theme) {
 
-      if (theme === null) theme = 'bigcards';
+      if (theme === null)
+        theme = 'bigcards';
 
-      client.json.send({
-        action: 'changeTheme',
-        data: theme
-      });
+      client.json.send({action: 'changeTheme', data: theme});
     });
 
     db.getBoardSize(room, function(size) {
 
       if (size !== null) {
-        client.json.send({
-          action: 'setBoardSize',
-          data: size
-        });
+        client.json.send({action: 'setBoardSize', data: size});
       }
     });
 
@@ -484,26 +542,21 @@ function initClient(client) {
     }
 
     //console.log('initialusers: ' + roommates);
-    client.json.send({
-      action: 'initialUsers',
-      data: roommates
-    });
+    client.json.send({action: 'initialUsers', data: roommates});
 
   });
 }
 
-
 function joinRoom(client, room, successFunction) {
   var msg = {};
-  sids_to_user_names[client.id] = NameSSO;
-  //console.log(NameSSO + "joinRoom " + room )
+  console.log(NameSSO  + " joinRoom " + room)
+  sids_to_user_names[client.id] = NameSSO+" *";
   msg.action = 'join-announce';
   msg.data = {
     sid: client.id,
-    user_name: NameSSO
+    user_name: NameSSO+" *"
 
   };
-
   rooms.add_to_room_and_announce(client, room, msg);
   successFunction();
 }
@@ -543,8 +596,6 @@ function roundRand(max) {
   return Math.floor(Math.random() * max);
 }
 
-
-
 //------------ROOM STUFF
 // Get Room name for the given Session ID
 function getRoom(client, callback) {
@@ -553,11 +604,11 @@ function getRoom(client, callback) {
   callback(room);
 }
 
-
 function setUserName(client, name) {
-  client.user_name = NameSSO;
-  sids_to_user_names[client.id] = NameSSO;
 
+  client.user_name =name;
+  sids_to_user_names[client.id] = name;
+  console.log("setUserName "+ name)
 }
 
 function cleanAndInitializeDemoRoom() {
@@ -567,7 +618,6 @@ function cleanAndInitializeDemoRoom() {
     db.createColumn('/demo', 'En COURS');
     db.createColumn('/demo', 'A TESTER');
     db.createColumn('/demo', 'OK ');
-
 
     createCard('/demo', 'card1', '<p align="center">Hello  </p> Vous pouvez écrire en <b>HTML</b> ', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'yellow');
     createCard('/demo', 'card2', 'Vous pouvez Ecrire En **MARKDOWN** \n * Une puce \n * Une autre!"', roundRand(600), roundRand(300), Math.random() * 10 - 5, 'white');
@@ -642,7 +692,9 @@ function exportBoard(format, client, data) {
             for (var j = 0; j < max; j++) {
               line = new Array();
               for (var i = 0; i < columns.length; i++) {
-                var val = (cols[columns[i]][j] !== undefined) ? cols[columns[i]][j]['text'].replace(/"/g, '""') : '';
+                var val = (cols[columns[i]][j] !== undefined)
+                  ? cols[columns[i]][j]['text'].replace(/"/g, '""')
+                  : '';
                 if (patt_vuln.test(val)) { // prevent CSV Formula Injection
                   var val = "'" + val;
                 }
@@ -686,17 +738,14 @@ function exportJson(client, data) {
       db.getAllColumns(room, function(columns) {
         db.getTheme(room, function(theme) {
           db.getBoardSize(room, function(size) {
-            if (theme === null) theme = 'bigcards';
-            if (size === null) size = {
-              width: data.width,
-              height: data.height
-            };
-            result = JSON.stringify({
-              cards: cards,
-              columns: columns,
-              theme: theme,
-              size: size
-            });
+            if (theme === null)
+              theme = 'bigcards';
+            if (size === null)
+              size = {
+                width: data.width,
+                height: data.height
+              };
+            result = JSON.stringify({cards: cards, columns: columns, theme: theme, size: size});
             client.json.send({
               action: 'export',
               data: {
@@ -724,10 +773,7 @@ function importJson(client, data) {
         var cards2 = new Array();
         for (var i = 0; i < cards.length; i++) {
           var card = cards[i];
-          if (card.id !== undefined && card.colour !== undefined &&
-            card.rot !== undefined && card.x !== undefined &&
-            card.y !== undefined && card.text !== undefined &&
-            card.sticker !== undefined) {
+          if (card.id !== undefined && card.colour !== undefined && card.rot !== undefined && card.x !== undefined && card.y !== undefined && card.text !== undefined && card.sticker !== undefined) {
             var c = {
               id: card.id,
               colour: card.colour,
@@ -809,11 +855,13 @@ function createRevision(client, data) {
       db.getAllColumns(room, function(columns) {
         db.getTheme(room, function(theme) {
           db.getBoardSize(room, function(size) {
-            if (theme === null) theme = 'bigcards';
-            if (size === null) size = {
-              width: data.width,
-              height: data.height
-            };
+            if (theme === null)
+              theme = 'bigcards';
+            if (size === null)
+              size = {
+                width: data.width,
+                height: data.height
+              };
             result = {
               cards: cards,
               columns: columns,
@@ -822,7 +870,8 @@ function createRevision(client, data) {
             };
             var timestamp = Date.now();
             db.getRevisions(room, function(revisions) {
-              if (revisions === null) revisions = {};
+              if (revisions === null)
+                revisions = {};
               revisions[timestamp + ''] = result;
               db.setRevisions(room, revisions);
               msg = {
@@ -857,7 +906,6 @@ function deleteRevision(client, timestamp) {
 }
 
 function applyRevision(client, timestamp) {
-  console.log("APPLYREV")
   getRoom(client, function(room) {
     db.getRevisions(room, function(revisions) {
       if (revisions !== null && revisions[timestamp + ''] !== undefined) {

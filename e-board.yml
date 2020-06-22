@@ -1,0 +1,29 @@
+version: '3.4'
+
+volumes:
+  e-board-data:
+      driver: local
+
+services:
+
+ board:
+     image: eoleteam/e-board
+     restart: unless-stopped
+     volumes:
+       - ./keycloak.json:/usr/src/app/keycloak.json
+     environment:
+       - SCRUMBLR_REDIS_URL=redis
+     links:
+       - redis:redis
+     labels:
+       - "traefik.enable=true"
+       - traefik.port=8080
+       - traefik.backend=board
+       - 'traefik.frontend.rule=Host:board.appseducation.fr'
+
+ redis:
+     image: redis:latest
+     volumes:
+      - e-board-data:/data
+     command: redis-server --appendonly yes
+

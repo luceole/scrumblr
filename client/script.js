@@ -43,7 +43,7 @@ socket.on('connect', function() {
   //Part of the path be the room name
   //var room = location.pathname.substring(location.pathname.lastIndexOf('/'));
   var room = "/"+location.pathname.substring(location.pathname.indexOf('/')).substr(1).replace(/#/g,"").replace("/","#");
-  console.log(room)
+  //console.log(room)
   //imediately join the room which will trigger the initializations
   sendAction('joinRoom', room);
 });
@@ -364,17 +364,17 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
       if (document.getElementById("zoomdiv")) {
         // document.body.removeChild(zelement);
           var zcontent = document.getElementById("zcontent")
-          // zcontent.innerHTML=marked($("#" + id).children('.content:first').attr('data-text'))
+            // zcontent.innerHTML=marked($("#" + id).children('.content:first').attr('data-text'))
           zcontent.innerHTML='<div style="padding: 10px;">'+marked($("#" + id).children('.content:first').attr('data-text'))+'</div>'
           return
       }
 
 
       var zelement = document.createElement('div');
-      zelement.style.width = "60>%";
-      zelement.style.height = "50%";
+      zelement.style.width = "33%";
+      zelement.style.height = "45%";
       zelement.style.top = "15%";
-      zelement.style.left = "30%"
+      zelement.style.left = "33%"
 
       zelement.setAttribute("id", "zoomdiv");
       // zelement.setAttribute('resizable', 'both');
@@ -384,14 +384,12 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
       zbarre.setAttribute("id", "zoomdivheader")
       zbarre.innerHTML="<div> Consultation <img src='"+origin+"images/icons/token/Xion.png'class='visio-icon' id='close-zcontent'></div>";
       var zcontent = document.createElement('div');
-
+      zelement.appendChild(zbarre)
+      zelement.appendChild(zcontent);
       zcontent.setAttribute("id", "zcontent")
       zcontent.setAttribute("class", "zcontent")
       zcontent.style.width = "100%";
       zcontent.style.height = "100%";
-
-
-
       zcontent.innerHTML='<div style="padding: 10px;">'+marked($("#" + id).children('.content:first').attr('data-text'))+'</div>'
       //visio.innerHTML=$( "#" + id).children('.content:first').html(marked(attr('data-text')))
       zelement.appendChild(zbarre)
@@ -414,11 +412,22 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
 
 
   card.children('.content').editable(function(value, settings) {
+
     $("#" + id).children('.content:first').attr('data-text', value);
     onCardChange(id, value);
     return (marked(value));
-  }, {
+  }
+  , {
     type: 'textarea',
+  //   before: function() {
+  //     //changeThemeTo('bigcards');
+  //     // width: 230px;
+  //   	// height: 160px;
+  //     // var current=document.getElementById(id)
+  //     // current.style.width="230px";
+  //   	// current.height="160px";
+  //     // console.log(current.children);
+  // },
     data: function() {
       return $("#" + id).children('.content:first').attr('data-text');
     },
@@ -427,6 +436,7 @@ function drawNewCard(id, text, x, y, rot, colour, sticker, animationspeed) {
     cssclass: 'card-edit-form',
     placeholder: 'Double Click pour modifier',
     onblur: 'submit',
+    tooltip : "Double Click pour modifer",
     event: 'dblclick', //event: 'mouseover'
   });
 
@@ -542,7 +552,6 @@ function dragElement(elmt) {
     pos2 = 0,
     pos3 = 0,
     pos4 = 0;
-  console.log(elmnt)
   if (document.getElementById(elmnt.id + "header")) {
     // if present, the header is where you move the DIV from:
     document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
@@ -741,11 +750,13 @@ function getCookie(c_name) {
 
 
 function setName(name) {
+  //console.log(name)
   sendAction('setUserName', name);
   setCookie('scrumscrum-username', name, 365);
 }
 
 function displayInitialUsers(users) {
+
   for (var i in users) {
     displayUserJoined(users[i].sid, users[i].user_name);
   }
@@ -1047,11 +1058,10 @@ $(function() {
   //
 
   var user_name = decodeURIComponent(getCookie('scrumscrum-username'));
-
-
+  $("#yourname-input").val(user_name);
 
   $("#yourname-input").focus(function() {
-    if ($(this).val() == 'unknown') {
+    if ($(this).val() == 'Anonyme') {
       $(this).val("");
     }
 
@@ -1061,14 +1071,12 @@ $(function() {
 
   $("#yourname-input").blur(function() {
     if ($(this).val() === "") {
-      $(this).val('unknown');
+      $(this).val('Anonyme');
     }
     $(this).removeClass('focused');
-
-    setName($(this).val());
+  setName($(this).val());
   });
 
-  $("#yourname-input").val(user_name);
   $("#yourname-input").blur();
 
   $("#yourname-li").hide();

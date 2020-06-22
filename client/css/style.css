@@ -126,8 +126,7 @@ width: 16px; height: 16px;
 	overflow: auto;
 	resize: none;
 	width: 100%;
-	color: #330066;
-	color: #666;
+	height: 100%;
 	scrollbar: -webkit-scrollbar {
 	  width: 1px;
 	};
@@ -706,12 +705,13 @@ img {
  background-color: #f3f3f3;
  border: 15px solid s#f3f3f3;
  padding: : 5px 5px 5px 5px;
+
  //text-align: center;
 }
 .zcontent {
 	overflow: scroll;
 	//display: block;
-	 background-color: #f3f3f3;
+	background-color: #f3f3f3;
 	padding: : 5px 5px 5px 5px;
 	//xpadding: 5px; float: left;
 	//xpadding: 5px; float: left;
@@ -729,6 +729,7 @@ img {
 	//background-position: center; /* Center the image */
 	//background-repeat: no-repeat; /* Do not repeat the image */
 	//background-size: cover; /* Resize the background image to cover the entire container */
+	//background-image: url('bg/stucco.png');
 	/* text-align: center; */
 	xline-height: 12px;
 	xopacity: .8;

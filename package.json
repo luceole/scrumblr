@@ -20,7 +20,7 @@
     "express": "4.x",
     "express-session": "^1.15.6",
     "jade": "~1.5.0",
-    "keycloak-connect": "4.5.0",
+    "keycloak-connect": "^9.0.2",
     "nodemon": "^1.19.0",
     "redis": "~0.12.1",
     "sanitize-html": "^1.25.0",
